@@ -1,6 +1,5 @@
-public class SoftwareHandler(ApplicationDbContext context)
+public class SoftwareHandler()
 {
-    private readonly ApplicationDbContext _context = context;
     public IEnumerable<SoftwareContract> GetSoftwareList()
     {
         var api = new CCPApi();

@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 [Route("[controller]")]
 [Authorize]
-public class SoftwareController(ApplicationDbContext context) : ControllerBase
+public class SoftwareController : ControllerBase
 {
-    private readonly ApplicationDbContext _context = context;
-
     [HttpGet]
     public IEnumerable<SoftwareContract> Get()
     {
-        var softwareHandler = new SoftwareHandler(_context);
+        var softwareHandler = new SoftwareHandler();
         return softwareHandler.GetSoftwareList();
     }
 }

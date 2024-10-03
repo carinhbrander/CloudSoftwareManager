@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSoftwareManager.Tests", "CloudSoftwareManager.Tests\CloudSoftwareManager.Tests.csproj", "{21B43155-5152-4E05-A1CE-480134318C00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudSoftwareManager.Tests", "CloudSoftwareManager.Tests\CloudSoftwareManager.Tests.csproj", "{21B43155-5152-4E05-A1CE-480134318C00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudSoftwareManager", "CloudSoftwareManager\CloudSoftwareManager.csproj", "{4B33ED53-63A8-4FBC-8704-F7B4DAD60AB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CloudSoftwareManager", "CloudSoftwareManager\CloudSoftwareManager.csproj", "{4B33ED53-63A8-4FBC-8704-F7B4DAD60AB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
