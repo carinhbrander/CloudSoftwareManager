@@ -19,34 +19,34 @@ public class SubscriptionController(ILogger<AccountController> logger, ISubscrip
     }
 
     [HttpPost]
-    public async Task<ActionResult<string>> Add(SubscriptionOrderContract contract)
+    public async Task<ActionResult> Add(SubscriptionOrderContract contract)
     {
         var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.Order(contract);
-        return "Subscription ordered";
+        return Ok();
     }
 
     [HttpPut("changequantity")]
-    public async Task<string> ChangeQuantity(Guid subscriptionId, int quanitity)
+    public async Task<ActionResult> ChangeQuantity(Guid subscriptionId, int quanitity)
     {
         var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.ChangeQuantity(subscriptionId, quanitity);
-        return $"changed to {quanitity}";
+        return Ok();
     }
 
     [HttpDelete]
-    public async Task<string> Cancel(Guid id)
+    public async Task<ActionResult> Cancel(Guid id)
     {
         var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.Cancel(id);
-        return $"canceled {id}";
+        return Ok();
     }
 
     [HttpPut("extend")]
-    public async Task<string> Extend(Guid subscriptionId, DateTime newdate)
+    public async Task<ActionResult> Extend(Guid subscriptionId, DateTime newdate)
     {
         var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.Extend(subscriptionId, newdate);
-        return $"extended to {newdate}";
+        return Ok();
     }
 }

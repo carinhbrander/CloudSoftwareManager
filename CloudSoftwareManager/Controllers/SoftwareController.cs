@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 public class SoftwareController : ControllerBase
 {
     [HttpGet]
-    public IEnumerable<SoftwareContract> Get()
+    public async Task<ActionResult<IEnumerable<SoftwareContract>>> Get()
     {
         var softwareHandler = new SoftwareHandler();
-        return softwareHandler.GetSoftwareList();
+        return await softwareHandler.GetSoftwareList();
     }
 }

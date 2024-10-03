@@ -1,6 +1,6 @@
 public class CCPApi
 {
-    public IEnumerable<SoftwareContract> ListSoftware()
+    public async Task<List<SoftwareContract>> ListSoftware()
     {
         return new List<SoftwareContract>{
             new SoftwareContract {

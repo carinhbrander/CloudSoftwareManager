@@ -1,8 +1,8 @@
 public class SoftwareHandler()
 {
-    public IEnumerable<SoftwareContract> GetSoftwareList()
+    public async Task<List<SoftwareContract>> GetSoftwareList()
     {
         var api = new CCPApi();
-        return api.ListSoftware();
+        return await api.ListSoftware();
     }
 }

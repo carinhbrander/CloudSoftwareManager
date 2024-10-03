@@ -19,8 +19,8 @@ public class AccountController(ILogger<AccountController> logger, IAccountReposi
         return await accountHandler.GetAccounts(Guid.Parse(customerId));
     }
 
-    [HttpPost("{accountName}")]
-    public async Task<ActionResult<string>> Add(string accountName)
+    [HttpPost]
+    public async Task<ActionResult> Add(string accountName)
     {
         var accountHandler = new AccountHandler(accountRepository);
         var customerId = _userManager.GetUserId(User);
@@ -29,6 +29,6 @@ public class AccountController(ILogger<AccountController> logger, IAccountReposi
             return BadRequest();
         }
         await accountHandler.Add(Guid.Parse(customerId), accountName);
-        return "Account created";
+        return Ok();
     }
 }
