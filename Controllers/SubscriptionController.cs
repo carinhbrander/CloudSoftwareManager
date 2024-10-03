@@ -34,11 +34,19 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
         return $"changed to {quanitity}";
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<string> Cancel(Guid id)
     {
         var subscriptionHandler = new SubscriptionHandler(context);
         await subscriptionHandler.Cancel(id);
         return $"canceled {id}";
+    }
+
+    [HttpPut("extend")]
+    public async Task<string> Extend(Guid subscriptionId, DateTime newdate)
+    {
+        var subscriptionHandler = new SubscriptionHandler(context);
+        await subscriptionHandler.Extend(subscriptionId, newdate);
+        return $"extended to {newdate}";
     }
 }

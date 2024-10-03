@@ -75,4 +75,28 @@ public class SubscriptionHandler(ApplicationDbContext context)
         subscription.State = SubscriptionState.Cancelled;
         await subscriptionRepository.Update(subscription);
     }
+
+    public async Task Extend(Guid subscriptionId, DateTime newdate)
+    {
+        var contract = new SubscriptionChangeContract
+        {
+            SubscriptionId = subscriptionId,
+            ValidTo = newdate
+        };
+
+        try
+        {
+            var ccpApi = new CCPApi();
+            ccpApi.ChangeSubscription(contract);
+        }
+        catch
+        {
+            throw;
+        }
+
+        var subscriptionRepository = new SubscriptionRepository(context);
+        var subscription = await subscriptionRepository.Get(subscriptionId);
+        subscription.ValidTo = newdate;
+        await subscriptionRepository.Update(subscription);
+    }
 }
