@@ -25,4 +25,12 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
         await subscriptionHandler.Order(contract);
         return "Subscription ordered";
     }
+
+    [HttpPut("changequantity")]
+    public async Task<string> ChangeQuantity(Guid subscriptionId, int quanitity)
+    {
+        var subscriptionHandler = new SubscriptionHandler(context);
+        await subscriptionHandler.ChangeQuantity(subscriptionId, quanitity);
+        return $"changed to {quanitity}";
+    }
 }

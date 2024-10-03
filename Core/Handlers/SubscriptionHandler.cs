@@ -33,4 +33,27 @@ public class SubscriptionHandler(ApplicationDbContext context)
         var subscriptions = await subscriptionRepository.GetSubscriptions(accountId);
         return subscriptions;
     }
+
+    public async Task ChangeQuantity(Guid subscriptionId, int quanitity)
+    {
+        var contract = new SubscriptionChangeContract
+        {
+            SubscriptionId = subscriptionId,
+            Quantity = quanitity
+        };
+        try
+        {
+            var ccpApi = new CCPApi();
+            ccpApi.ChangeSubscription(contract);
+        }
+        catch
+        {
+            throw;
+        }
+
+        var subscriptionRepository = new SubscriptionRepository(context);
+        var subscription = await subscriptionRepository.Get(subscriptionId);
+        subscription.Quantity = quanitity;
+        await subscriptionRepository.Update(subscription);
+    }
 }

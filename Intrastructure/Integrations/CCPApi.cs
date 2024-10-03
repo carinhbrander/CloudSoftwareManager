@@ -26,4 +26,13 @@ public class CCPApi
             throw new BadHttpRequestException("Api is down, try again later");
         }
     }
+
+    public void ChangeSubscription(SubscriptionChangeContract contract)
+    {
+        var success = true;
+        if (!success)
+        {
+            throw new BadHttpRequestException("Api is down, try again later");
+        }
+    }
 }
