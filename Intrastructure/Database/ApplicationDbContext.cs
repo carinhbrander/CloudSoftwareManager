@@ -7,4 +7,6 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
         base(options)
     { }
+
+    public DbSet<Account> Accounts { get; set; }
 }
