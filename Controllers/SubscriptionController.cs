@@ -11,6 +11,13 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
     private readonly ApplicationDbContext _context = context;
     private readonly UserManager<IdentityUser> _userManager = userManager;
 
+    [HttpGet]
+    public async Task<ActionResult<List<Subscription>>> Get(Guid accountId)
+    {
+        var subscriptionHandler = new SubscriptionHandler(context);
+        return await subscriptionHandler.GetSubscriptions(accountId);
+    }
+
     [HttpPost]
     public async Task<ActionResult<string>> Add(SubscriptionOrderContract contract)
     {

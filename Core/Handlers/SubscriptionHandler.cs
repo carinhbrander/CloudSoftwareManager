@@ -26,4 +26,11 @@ public class SubscriptionHandler(ApplicationDbContext context)
         var subscriptionRepository = new SubscriptionRepository(context);
         await subscriptionRepository.Add(subscription);
     }
+
+    public async Task<List<Subscription>> GetSubscriptions(Guid accountId)
+    {
+        var subscriptionRepository = new SubscriptionRepository(context);
+        var subscriptions = await subscriptionRepository.GetSubscriptions(accountId);
+        return subscriptions;
+    }
 }

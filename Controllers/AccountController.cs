@@ -16,10 +16,6 @@ public class AccountController(ILogger<AccountController> logger, ApplicationDbC
     {
         var accountHandler = new AccountHandler(context);
         var customerId = _userManager.GetUserId(User);
-        if (String.IsNullOrWhiteSpace(customerId))
-        {
-            return BadRequest();
-        }
         return await accountHandler.GetAccounts(Guid.Parse(customerId));
     }
 
