@@ -5,23 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 [Authorize]
 [Route("[controller]")]
-public class SubscriptionController(ILogger<AccountController> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager) : ControllerBase
+public class SubscriptionController(ILogger<AccountController> logger, ISubscriptionRepository subscriptionRepository, UserManager<IdentityUser> userManager) : ControllerBase
 {
     private readonly ILogger<AccountController> _logger = logger;
-    private readonly ApplicationDbContext _context = context;
+    private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
     private readonly UserManager<IdentityUser> _userManager = userManager;
 
     [HttpGet]
     public async Task<ActionResult<List<Subscription>>> Get(Guid accountId)
     {
-        var subscriptionHandler = new SubscriptionHandler(context);
+        var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         return await subscriptionHandler.GetSubscriptions(accountId);
     }
 
     [HttpPost]
     public async Task<ActionResult<string>> Add(SubscriptionOrderContract contract)
     {
-        var subscriptionHandler = new SubscriptionHandler(context);
+        var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.Order(contract);
         return "Subscription ordered";
     }
@@ -29,7 +29,7 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
     [HttpPut("changequantity")]
     public async Task<string> ChangeQuantity(Guid subscriptionId, int quanitity)
     {
-        var subscriptionHandler = new SubscriptionHandler(context);
+        var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.ChangeQuantity(subscriptionId, quanitity);
         return $"changed to {quanitity}";
     }
@@ -37,7 +37,7 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
     [HttpDelete]
     public async Task<string> Cancel(Guid id)
     {
-        var subscriptionHandler = new SubscriptionHandler(context);
+        var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.Cancel(id);
         return $"canceled {id}";
     }
@@ -45,7 +45,7 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
     [HttpPut("extend")]
     public async Task<string> Extend(Guid subscriptionId, DateTime newdate)
     {
-        var subscriptionHandler = new SubscriptionHandler(context);
+        var subscriptionHandler = new SubscriptionHandler(_subscriptionRepository);
         await subscriptionHandler.Extend(subscriptionId, newdate);
         return $"extended to {newdate}";
     }

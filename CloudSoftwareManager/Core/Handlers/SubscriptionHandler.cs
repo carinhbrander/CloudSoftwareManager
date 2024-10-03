@@ -1,9 +1,29 @@
-public class SubscriptionHandler(ApplicationDbContext context)
+public class SubscriptionHandler(ISubscriptionRepository subscriptionRepository)
 {
-    private readonly ApplicationDbContext _context = context;
+    private readonly ISubscriptionRepository _subscriptionRepository = subscriptionRepository;
 
     public async Task Order(SubscriptionOrderContract contract)
     {
+        if (contract.SoftwareId == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(contract.SoftwareId));
+        }
+
+        if (contract.AccountId == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(contract.AccountId));
+        }
+
+        if (contract.Quantity < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(contract.Quantity));
+        }
+
+        if (contract.ValidTo < DateTime.UtcNow)
+        {
+            throw new ArgumentOutOfRangeException(nameof(contract.ValidTo));
+        }
+
         try
         {
             var ccpApi = new CCPApi();
@@ -23,14 +43,12 @@ public class SubscriptionHandler(ApplicationDbContext context)
             ValidTo = contract.ValidTo
         };
 
-        var subscriptionRepository = new SubscriptionRepository(context);
-        await subscriptionRepository.Add(subscription);
+        await _subscriptionRepository.Add(subscription);
     }
 
     public async Task<List<Subscription>> GetSubscriptions(Guid accountId)
     {
-        var subscriptionRepository = new SubscriptionRepository(context);
-        var subscriptions = await subscriptionRepository.GetSubscriptions(accountId);
+        var subscriptions = await _subscriptionRepository.GetSubscriptions(accountId);
         return subscriptions;
     }
 
@@ -52,8 +70,7 @@ public class SubscriptionHandler(ApplicationDbContext context)
             throw;
         }
 
-        var subscriptionRepository = new SubscriptionRepository(context);
-        var subscription = await subscriptionRepository.Get(subscriptionId);
+        var subscription = await _subscriptionRepository.Get(subscriptionId);
         subscription.Quantity = quanitity;
         await subscriptionRepository.Update(subscription);
     }
@@ -70,8 +87,7 @@ public class SubscriptionHandler(ApplicationDbContext context)
             throw;
         }
 
-        var subscriptionRepository = new SubscriptionRepository(context);
-        var subscription = await subscriptionRepository.Get(subscriptionId);
+        var subscription = await _subscriptionRepository.Get(subscriptionId);
         subscription.State = SubscriptionState.Cancelled;
         await subscriptionRepository.Update(subscription);
     }
@@ -94,8 +110,7 @@ public class SubscriptionHandler(ApplicationDbContext context)
             throw;
         }
 
-        var subscriptionRepository = new SubscriptionRepository(context);
-        var subscription = await subscriptionRepository.Get(subscriptionId);
+        var subscription = await _subscriptionRepository.Get(subscriptionId);
         subscription.ValidTo = newdate;
         await subscriptionRepository.Update(subscription);
     }

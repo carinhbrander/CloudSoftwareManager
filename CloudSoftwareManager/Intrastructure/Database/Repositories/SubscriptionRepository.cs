@@ -1,6 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 
-public class SubscriptionRepository(ApplicationDbContext context)
+public interface ISubscriptionRepository
+{
+    Task Add(Subscription subscription);
+    Task<Subscription> Get(Guid id);
+    Task<List<Subscription>> GetSubscriptions(Guid accountId);
+    Task Update(Subscription subscription);
+}
+
+public class SubscriptionRepository(ApplicationDbContext context) : ISubscriptionRepository
 {
     private readonly ApplicationDbContext _context = context;
 
