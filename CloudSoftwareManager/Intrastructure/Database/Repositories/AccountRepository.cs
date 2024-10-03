@@ -24,7 +24,7 @@ public class AccountRepository(ApplicationDbContext context) : IAccountRepositor
 
     public async Task<List<Account>> GetAccounts(Guid customerId)
     {
-        var accounts = await _context.Accounts.Where(a => a.CustomerId == customerId).ToListAsync();
+        var accounts = await _context.Accounts.Include(x => x.Subscriptions).Where(a => a.CustomerId == customerId).ToListAsync();
         return accounts;
     }
 }
