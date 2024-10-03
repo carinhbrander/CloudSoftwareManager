@@ -41,6 +41,7 @@ public class SubscriptionHandler(ApplicationDbContext context)
             SubscriptionId = subscriptionId,
             Quantity = quanitity
         };
+
         try
         {
             var ccpApi = new CCPApi();
@@ -54,6 +55,24 @@ public class SubscriptionHandler(ApplicationDbContext context)
         var subscriptionRepository = new SubscriptionRepository(context);
         var subscription = await subscriptionRepository.Get(subscriptionId);
         subscription.Quantity = quanitity;
+        await subscriptionRepository.Update(subscription);
+    }
+
+    public async Task Cancel(Guid subscriptionId)
+    {
+        try
+        {
+            var ccpApi = new CCPApi();
+            ccpApi.CancelSubscription(subscriptionId);
+        }
+        catch
+        {
+            throw;
+        }
+
+        var subscriptionRepository = new SubscriptionRepository(context);
+        var subscription = await subscriptionRepository.Get(subscriptionId);
+        subscription.State = SubscriptionState.Cancelled;
         await subscriptionRepository.Update(subscription);
     }
 }

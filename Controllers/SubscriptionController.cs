@@ -33,4 +33,12 @@ public class SubscriptionController(ILogger<AccountController> logger, Applicati
         await subscriptionHandler.ChangeQuantity(subscriptionId, quanitity);
         return $"changed to {quanitity}";
     }
+
+    [HttpDelete("{id}")]
+    public async Task<string> Cancel(Guid id)
+    {
+        var subscriptionHandler = new SubscriptionHandler(context);
+        await subscriptionHandler.Cancel(id);
+        return $"canceled {id}";
+    }
 }

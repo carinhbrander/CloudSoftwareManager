@@ -35,4 +35,13 @@ public class CCPApi
             throw new BadHttpRequestException("Api is down, try again later");
         }
     }
+
+    public void CancelSubscription(Guid subscriptionId)
+    {
+        var success = true;
+        if (!success)
+        {
+            throw new BadHttpRequestException("Api is down, try again later");
+        }
+    }
 }
