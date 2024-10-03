@@ -1,6 +1,7 @@
 public class Subscription
 {
     public Guid Id { get; set; }
+    public Guid AccountId { get; set; }
     public Guid SoftwareId { get; set; }
     public int Quantity { get; set; }
     public SubscriptionState State { get; set; }

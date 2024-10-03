@@ -9,4 +9,5 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     { }
 
     public DbSet<Account> Accounts { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; }
 }

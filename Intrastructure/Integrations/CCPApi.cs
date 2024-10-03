@@ -17,4 +17,13 @@ public class CCPApi
             }
         };
     }
+
+    public void OrderSubscription(SubscriptionOrderContract contract)
+    {
+        var success = true;
+        if (!success)
+        {
+            throw new BadHttpRequestException("Api is down, try again later");
+        }
+    }
 }
