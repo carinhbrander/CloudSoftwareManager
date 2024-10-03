@@ -28,6 +28,7 @@ builder.Services.AddSwaggerGen(opt =>
         BearerFormat = "JWT",
         Scheme = "bearer"
     });
+
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -42,7 +43,9 @@ builder.Services.AddSwaggerGen(opt =>
             new string[]{}
         }
     });
-}); ;
+});
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 var app = builder.Build();
 

@@ -1,6 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 
-public class AccountRepository(ApplicationDbContext context)
+public interface IAccountRepository
+{
+    Task Add(Guid customerId, string accountName);
+    Task<List<Account>> GetAccounts(Guid customerId);
+}
+
+public class AccountRepository(ApplicationDbContext context) : IAccountRepository
 {
     private readonly ApplicationDbContext _context = context;
 

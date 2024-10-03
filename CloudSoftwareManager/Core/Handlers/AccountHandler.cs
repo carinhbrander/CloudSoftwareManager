@@ -1,17 +1,23 @@
-public class AccountHandler(ApplicationDbContext context)
+public class AccountHandler(IAccountRepository accountRepository)
 {
-    private readonly ApplicationDbContext _context = context;
+    private readonly IAccountRepository _accountRepository = accountRepository;
 
     public async Task Add(Guid customerId, string accountName)
     {
-        var repository = new AccountRepository(_context);
-        await repository.Add(customerId, accountName);
+        if(String.IsNullOrEmpty(accountName))
+        {
+            throw new ArgumentNullException(nameof(accountName));
+        }
+        await _accountRepository.Add(customerId, accountName);
     }
 
     public async Task<List<Account>> GetAccounts(Guid customerId)
     {
-        var repository = new AccountRepository(_context);
-        var accounts = await repository.GetAccounts(customerId);
+        if (customerId == Guid.Empty)
+        {
+            throw new ArgumentNullException(nameof(customerId));
+        }
+        var accounts = await _accountRepository.GetAccounts(customerId);
         return accounts;
     }
 }
